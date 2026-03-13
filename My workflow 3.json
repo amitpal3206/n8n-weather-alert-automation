@@ -1,0 +1,108 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3f8e9a30-0ca8-47fa-b091-e9105004abb6",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "locationSelection": "zipCode",
+        "zipCode": "121003,IN",
+        "language": "english"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "916a695e-12cf-4d57-8ebd-3a7ffddbb703",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "awwTGQSYsg2uEzHt",
+          "name": "OpenWeatherMap account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "amitpal3206@gmail.com",
+        "subject": "Today's Weather Report",
+        "emailType": "text",
+        "message": "=Good morning! The current temperature {{ $json.list[0].main.temp }} in {{ $json.city.name }} \nWith a temperature range of{{ $json.list[39].main.temp_min }} To {{ $json.list[39].main.temp_max }} and Wind speed of {{ $json.list[39].wind.speed }} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "85ff6a68-19b8-4eea-882f-d1e3070f3869",
+      "name": "Send a message",
+      "webhookId": "1adf8a8c-e6db-434b-a7f7-760a4525ab9b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "so0P08tnISWgyjIa",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "8a67c427-c215-4940-b817-731c9d01388e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1b64fe8af2fc583b8eacbe7b6064aa69a6672583d7444d9d40cd9928ca14b540"
+  },
+  "id": "or2TS01enbLNIZ7g",
+  "tags": []
+}
